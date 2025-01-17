@@ -3,8 +3,7 @@
 #include "_private/extract_numver.hpp"
 #include "concepts/numver.hpp"
 #include "is_compatible_with.hpp"
-
-// #include <arba/cppx/version/compile_time_error.hpp>
+#include <arba/cppx/compilation_error.hpp>
 #include <arba/cppx/string/string_conversion.hpp>
 
 #include <cstdint>
@@ -65,9 +64,6 @@ public:
         return cppx::is_patch_compatible_with(*this, rv);
     }
 
-protected:
-    static void compile_time_error(...) { throw "This function must only be called in constant context."; }
-
 private:
     static constexpr numver make_instance_(std::string_view version_str);
 };
@@ -97,7 +93,7 @@ constexpr numver numver::make_instance_(std::string_view version_str)
     {
         if (std::is_constant_evaluated())
         {
-            compile_time_error("'version_str' is not a valid version."
+            compilation_error("'version_str' is not a valid version."
                                R"(regex to match: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$)");
         }
         throw std::invalid_argument(std::string(version_str));
