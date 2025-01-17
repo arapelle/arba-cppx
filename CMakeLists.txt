@@ -38,7 +38,15 @@ configure_headers(configured_headers
 
 ## Headers:
 set(headers
-    include/arba/cppx/cppx.hpp
+    include/arba/cppx/string/string_conversion.hpp
+    include/arba/cppx/version/concepts/numver.hpp
+    include/arba/cppx/version/concepts/semver.hpp
+    include/arba/cppx/version/is_compatible_with.hpp
+    include/arba/cppx/version/numver.hpp
+    include/arba/cppx/version/semver.hpp
+    include/arba/cppx/version/vtag.hpp
+    include/arba/cppx/version/_private/extract_numver.hpp
+    include/arba/cppx/version/_private/extract_semver.hpp
 )
 
 ## Add C++ library:
@@ -49,13 +57,6 @@ add_cpp_library(${PROJECT_NAME} HEADER_ONLY
   DEFAULT_WARNING_OPTIONS
 )
 add_library("${PROJECT_NAMESPACE}::${PROJECT_BASE_NAME}${LIBRARY_TYPE_POSTFIX}" ALIAS ${PROJECT_NAME})
-
-## Link C++ targets:
-find_package(arba-vrsn 0.4.0 REQUIRED CONFIG)
-target_link_libraries(${PROJECT_NAME}
-    INTERFACE
-        arba::vrsn
-)
 
 ## Add tests:
 add_test_subdirectory_if_build(test)
