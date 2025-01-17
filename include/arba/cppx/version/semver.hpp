@@ -194,7 +194,7 @@ constexpr semver semver::valid_semantic_version_(std::string_view semver_str)
     {
         if (std::is_constant_evaluated())
         {
-            compile_time_error("'semver' is not a valid semantic version.");
+            compilation_error("'semver' is not a valid semantic version.");
         }
         throw std::invalid_argument(std::string(semver_str));
     }
@@ -210,7 +210,7 @@ constexpr std::string_view semver::valid_pre_release_(std::string_view pre_relea
         {
             if (std::is_constant_evaluated())
             {
-                compile_time_error("'pre_release_version' is not a valid pre-release version.");
+                compilation_error("'pre_release_version' is not a valid pre-release version.");
             }
             throw std::invalid_argument(std::string(pre_release_version));
         }
@@ -227,7 +227,7 @@ constexpr std::string_view semver::valid_build_metadata_(std::string_view build_
         {
             if (std::is_constant_evaluated())
             {
-                compile_time_error("'build_metadata' is not a valid build metadata string.");
+                compilation_error("'build_metadata' is not a valid build metadata string.");
             }
             throw std::invalid_argument(std::string(build_metadata));
         }
