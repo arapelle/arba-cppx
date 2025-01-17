@@ -48,9 +48,6 @@ class ArbaCppxRecipe(ConanFile):
     def layout(self):
         cmake_layout(self)
 
-    def requirements(self):
-        self.requires("arba-vrsn/[^0.4]", transitive_headers=True, transitive_libs=True)
-
     def validate(self):
         check_min_cppstd(self, 20)
 
