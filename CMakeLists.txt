@@ -38,6 +38,7 @@ configure_headers(configured_headers
 
 ## Headers:
 set(headers
+    include/arba/cppx/string/fixed_string.hpp
     include/arba/cppx/string/string_conversion.hpp
     include/arba/cppx/version/concepts/numver.hpp
     include/arba/cppx/version/concepts/semver.hpp
