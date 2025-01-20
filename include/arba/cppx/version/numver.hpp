@@ -94,7 +94,7 @@ constexpr numver numver::make_instance_(std::string_view version_str)
         if (std::is_constant_evaluated())
         {
             compilation_error("'version_str' is not a valid version."
-                               R"(regex to match: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$)");
+                              R"(regex to match: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$)");
         }
         throw std::invalid_argument(std::string(version_str));
     }
