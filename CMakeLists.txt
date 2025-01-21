@@ -39,6 +39,7 @@ configure_headers(configured_headers
 ## Headers:
 set(headers
     include/arba/cppx/compilation_error.hpp
+    include/arba/cppx/macro/exception.hpp
     include/arba/cppx/macro/format_var.hpp
     include/arba/cppx/macro/identity_type.hpp
     include/arba/cppx/macro/stringize.hpp
