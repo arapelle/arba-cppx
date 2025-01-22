@@ -1,6 +1,6 @@
 #define ARBA_CPPX_NO_EXCEPTIONS
 
-#include <arba/cppx/macro/exception.hpp>
+#include <arba/cppx/preprocessor/exception.hpp>
 
 #include <gtest/gtest.h>
 
