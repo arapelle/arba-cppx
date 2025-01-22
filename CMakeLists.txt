@@ -39,6 +39,7 @@ configure_headers(configured_headers
 ## Headers:
 set(headers
     include/arba/cppx/compilation_error.hpp
+    include/arba/cppx/preprocessor/auto_var_name.hpp
     include/arba/cppx/preprocessor/concat.hpp
     include/arba/cppx/preprocessor/exception.hpp
     include/arba/cppx/preprocessor/format_var.hpp
