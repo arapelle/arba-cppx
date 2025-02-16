@@ -4,6 +4,6 @@ add_cpp_library_basic_tests(${PROJECT_NAME} GTest::gtest_main
         extract_semver_tests.cpp
         extract_numver_tests.cpp
         numver_tests.cpp
-        vtag_tests.cpp
+        numver_constant_tests.cpp
         semver_tests.cpp
 )

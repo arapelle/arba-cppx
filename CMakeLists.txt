@@ -44,7 +44,7 @@ set(headers
     include/arba/cppx/version/is_compatible_with.hpp
     include/arba/cppx/version/numver.hpp
     include/arba/cppx/version/semver.hpp
-    include/arba/cppx/version/vtag.hpp
+    include/arba/cppx/version/numver_constant.hpp
     include/arba/cppx/version/_private/extract_numver.hpp
     include/arba/cppx/version/_private/extract_semver.hpp
 )
