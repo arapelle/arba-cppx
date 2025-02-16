@@ -11,12 +11,12 @@ namespace cppx
 {
 
 template <uint64_t Major, uint32_t Minor, uint32_t Patch>
-class vtag
+class numver_constant
 {
 public:
     using tuple_type = std::tuple<uint64_t, uint32_t, uint32_t>;
 
-    constexpr vtag() = default;
+    constexpr numver_constant() = default;
 
     inline static constexpr uint64_t major() noexcept { return Major; }
     inline static constexpr uint32_t minor() noexcept { return Minor; }
@@ -40,37 +40,37 @@ public:
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator==(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator==(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() == other.to_tuple();
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator!=(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator!=(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() != other.to_tuple();
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator<(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator<(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() < other.to_tuple();
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator>(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator>(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() > other.to_tuple();
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator<=(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator<=(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() <= other.to_tuple();
     }
 
     template <uint64_t OtherMajor, uint32_t OtherMinor, uint32_t OtherPatch>
-    inline constexpr auto operator>=(const vtag<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
+    inline constexpr auto operator>=(const numver_constant<OtherMajor, OtherMinor, OtherPatch>& other) const noexcept
     {
         return to_tuple() >= other.to_tuple();
     }
