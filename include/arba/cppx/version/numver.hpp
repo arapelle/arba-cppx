@@ -98,7 +98,7 @@ constexpr numver numver::make_instance_(std::string_view version_str)
         }
         throw std::invalid_argument(std::string(version_str));
     }
-    return numver(stoi64(major), stoi64(minor), stoi64(patch));
+    return numver(stoi64(major), static_cast<uint32_t>(stoi64(minor)), static_cast<uint32_t>(stoi64(patch)));
 }
 
 } // namespace cppx

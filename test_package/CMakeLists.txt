@@ -8,17 +8,12 @@ add_executable(${test_program}
 )
 
 set(lib_namespace "arba")
-set(lib_base_name "cppx")
-find_package(${lib_namespace}-${lib_base_name} CONFIG REQUIRED)
+set(lib_feature_name "cppx")
+find_package(${lib_namespace}-${lib_feature_name} CONFIG REQUIRED)
 
-if(TARGET ${lib_namespace}::${lib_base_name})
-    set(lib_target "${lib_namespace}::${lib_base_name}")
-else()
-    set(lib_target "${lib_namespace}::${lib_base_name}-static")
-endif()
 target_link_libraries(${test_program}
     PRIVATE
-        ${lib_target}
+        ${lib_namespace}::${lib_feature_name}
 )
 
 target_compile_features(${test_program} PRIVATE cxx_std_20)
