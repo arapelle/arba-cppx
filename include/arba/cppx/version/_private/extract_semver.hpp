@@ -12,10 +12,10 @@ namespace private_
 [[nodiscard]] constexpr bool advance_alphanum_str_(std::string_view::const_iterator& iter,
                                                    std::string_view::const_iterator end_iter)
 {
-    const auto check_end = [&](std::string_view::const_iterator& iter)
+    const auto check_end = [&](std::string_view::const_iterator& it)
     {
-        if (iter != end_iter)
-            return std::string_view(".+").find(*iter) != std::string_view::npos;
+        if (it != end_iter)
+            return std::string_view(".+").find(*it) != std::string_view::npos;
         return true;
     };
 

@@ -9,6 +9,8 @@ add_cpp_library_basic_tests(${PROJECT_NAME} GTest::gtest_main
         project_version_tests.cpp
 )
 
-add_subdirectory(macro)
+add_subdirectory(preprocessor)
 add_subdirectory(string)
 add_subdirectory(version)
+add_subdirectory(type_traits)
+add_subdirectory(policy)

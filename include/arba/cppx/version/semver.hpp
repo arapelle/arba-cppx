@@ -199,7 +199,7 @@ constexpr semver semver::valid_semantic_version_(std::string_view semver_str)
         throw std::invalid_argument(std::string(semver_str));
     }
 
-    return semver(stoi64(major), stoi64(minor), stoi64(patch), pr, bm);
+    return semver(stoi64(major), static_cast<uint32_t>(stoi64(minor)), static_cast<uint32_t>(stoi64(patch)), pr, bm);
 }
 
 constexpr std::string_view semver::valid_pre_release_(std::string_view pre_release_version)

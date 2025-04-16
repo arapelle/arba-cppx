@@ -32,10 +32,10 @@ namespace private_
 {
     std::string_view::const_iterator begin = iter;
 
-    const auto check_end = [&](std::string_view::const_iterator& iter)
+    const auto check_end = [&](std::string_view::const_iterator& it)
     {
-        if (iter != end_iter)
-            return sep.find(*iter) != std::string_view::npos;
+        if (it != end_iter)
+            return sep.find(*it) != std::string_view::npos;
         return end_is_ok;
     };
 
