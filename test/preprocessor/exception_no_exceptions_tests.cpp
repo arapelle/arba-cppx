@@ -7,6 +7,12 @@
 #include <format>
 #include <stdexcept>
 
+struct Foo
+{
+    Foo(const Foo&) {}
+    std::string_view what() const { return "Foo::what()"; }
+};
+
 // clang-format off
 TEST(disabled_exceptions_tests, try_throw_catch__abort_with_message__ok)
 {
@@ -17,7 +23,15 @@ TEST(disabled_exceptions_tests, try_throw_catch__abort_with_message__ok)
         }
         ARBA_CPPX_CATCH(const std::exception& err)
         {
-            FAIL();
+            FAIL() << err.what();
+        }
+        ARBA_CPPX_CATCH(int err_code)
+        {
+            FAIL() << err_code;
+        }
+        ARBA_CPPX_CATCH(Foo err)
+        {
+            FAIL() << err.what();
         }
         }, "error_msg"
         );
@@ -30,9 +44,9 @@ TEST(disabled_exceptions_tests, try_throw_catch__abort_without_message__ok)
         {
             CPPX_THROW(std::runtime_error("exception"));
         }
-        CPPX_CATCH(const std::exception& err)
+        CPPX_CATCH(std::exception& err)
         {
-            FAIL();
+            FAIL() << err.what();
         }
         }, ""
         );
