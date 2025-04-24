@@ -55,5 +55,5 @@ using build_type_t = release_build_t;
 using build_type_t = debug_build_t;
 #endif
 constexpr build_type_t build_type;
-}
-}
+} // namespace cppx
+} // namespace arba

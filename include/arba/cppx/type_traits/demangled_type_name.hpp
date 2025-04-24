@@ -1,17 +1,21 @@
 #pragma once
 
 #if __has_include(<cxxabi.h>)
+#include <cxxabi.h>
+
 #include <cstdlib>
 #include <memory>
-#include <typeinfo>
 #include <string>
-#include <cxxabi.h>
+#include <typeinfo>
 
 inline namespace arba
 {
 namespace cppx
 {
-inline consteval bool is_demangled_type_name_available() { return true; }
+inline consteval bool is_demangled_type_name_available()
+{
+    return true;
+}
 #define ARBA_CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE true
 
 // https://stackoverflow.com/questions/281818/unmangling-the-result-of-stdtype-infoname
@@ -21,13 +25,10 @@ namespace private_
 inline std::string demangle_(const char* name)
 {
     int status = -1;
-    std::unique_ptr<char, void(*)(void*)> res {
-        abi::__cxa_demangle(name, NULL, NULL, &status),
-        std::free
-    };
+    std::unique_ptr<char, void (*)(void*)> res{ abi::__cxa_demangle(name, NULL, NULL, &status), std::free };
     return (status == 0) ? res.get() : name;
 }
-}
+} // namespace private_
 
 template <class Type>
 std::string demangled_type_name(const Type& arg)
@@ -49,7 +50,10 @@ inline namespace arba
 {
 namespace cppx
 {
-inline consteval bool is_demangled_type_name_available() { return false; }
+inline consteval bool is_demangled_type_name_available()
+{
+    return false;
+}
 #define ARBA_CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE false
 } // namespace cppx
 } // namespace arba
@@ -60,6 +64,6 @@ inline consteval bool is_demangled_type_name_available() { return false; }
 #else
 #if not defined(NDEBUG) && (defined(__GNUC__) || defined(__GNUG__) || defined(_MSC_VER) || defined(__clang__))
 #pragma message                                                                                                        \
-"CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE already exists. You must use ARBA_CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE."
+    "CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE already exists. You must use ARBA_CPPX_IS_DEMANGLED_TYPE_NAME_AVAILABLE."
 #endif
 #endif

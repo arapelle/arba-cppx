@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../preprocessor/exception.hpp"
 #include "_private/extract_numver.hpp"
 #include "concepts/numver.hpp"
 #include "is_compatible_with.hpp"
@@ -96,7 +97,7 @@ constexpr numver numver::make_instance_(std::string_view version_str)
             compilation_error("'version_str' is not a valid version."
                               R"(regex to match: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$)");
         }
-        throw std::invalid_argument(std::string(version_str));
+        ARBA_CPPX_THROW(std::invalid_argument(std::string(version_str)));
     }
     return numver(stoi64(major), static_cast<uint32_t>(stoi64(minor)), static_cast<uint32_t>(stoi64(patch)));
 }

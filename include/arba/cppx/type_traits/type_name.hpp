@@ -18,7 +18,7 @@ consteval bool is_type_name_available()
 }
 
 template <typename T>
-requires (is_type_name_available())
+    requires(is_type_name_available())
 constexpr auto type_name() -> std::string_view;
 
 namespace private_
@@ -34,7 +34,7 @@ private:
 #elif defined(_MSC_VER)
         return std::string_view{ __FUNCSIG__ };
 #else
-        return std::string_view{"void"};
+        return std::string_view{ "void" };
 #endif
     }
 
@@ -62,13 +62,13 @@ private:
     }
 
     template <typename T>
-    requires (is_type_name_available())
+        requires(is_type_name_available())
     friend constexpr auto ::arba::cppx::type_name() -> std::string_view;
 };
 } // namespace private_
 
 template <typename T>
-requires (is_type_name_available())
+    requires(is_type_name_available())
 constexpr auto type_name() -> std::string_view
 {
     if constexpr (std::is_same_v<T, std::string>)
@@ -89,7 +89,6 @@ constexpr auto type_name() -> std::string_view
 #define CPPX_IS_TYPE_NAME_AVAILABLE ARBA_CPPX_IS_TYPE_NAME_AVAILABLE
 #else
 #if not defined(NDEBUG) && (defined(__GNUC__) || defined(__GNUG__) || defined(_MSC_VER) || defined(__clang__))
-#pragma message                                                                                                        \
-"CPPX_IS_TYPE_NAME_AVAILABLE already exists. You must use ARBA_CPPX_IS_TYPE_NAME_AVAILABLE."
+#pragma message "CPPX_IS_TYPE_NAME_AVAILABLE already exists. You must use ARBA_CPPX_IS_TYPE_NAME_AVAILABLE."
 #endif
 #endif
