@@ -2,6 +2,7 @@
 
 #include "_private/extract_semver.hpp"
 #include "concepts/semver.hpp"
+#include "../preprocessor/exception.hpp"
 #include "numver.hpp"
 
 inline namespace arba
@@ -196,7 +197,7 @@ constexpr semver semver::valid_semantic_version_(std::string_view semver_str)
         {
             compilation_error("'semver' is not a valid semantic version.");
         }
-        throw std::invalid_argument(std::string(semver_str));
+        ARBA_CPPX_THROW(std::invalid_argument(std::string(semver_str)));
     }
 
     return semver(stoi64(major), static_cast<uint32_t>(stoi64(minor)), static_cast<uint32_t>(stoi64(patch)), pr, bm);
@@ -212,7 +213,7 @@ constexpr std::string_view semver::valid_pre_release_(std::string_view pre_relea
             {
                 compilation_error("'pre_release_version' is not a valid pre-release version.");
             }
-            throw std::invalid_argument(std::string(pre_release_version));
+            ARBA_CPPX_THROW(std::invalid_argument(std::string(pre_release_version)));
         }
     }
 
@@ -229,7 +230,7 @@ constexpr std::string_view semver::valid_build_metadata_(std::string_view build_
             {
                 compilation_error("'build_metadata' is not a valid build metadata string.");
             }
-            throw std::invalid_argument(std::string(build_metadata));
+            ARBA_CPPX_THROW(std::invalid_argument(std::string(build_metadata)));
         }
     }
 
