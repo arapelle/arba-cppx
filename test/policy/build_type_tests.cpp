@@ -11,11 +11,11 @@ TEST(build_type_tests, arba_cppx_bt_build__bt__defined)
 #ifdef ARBA_CPPX_DEBUG_BUILD
     FAIL();
 #else
-    #ifdef ARBA_CPPX_RELEASE_BUILD
-        SUCCEED();
-    #else
-        FAIL();
-    #endif
+#ifdef ARBA_CPPX_RELEASE_BUILD
+    SUCCEED();
+#else
+    FAIL();
+#endif
 #endif
 
 #else
@@ -23,11 +23,11 @@ TEST(build_type_tests, arba_cppx_bt_build__bt__defined)
 #ifdef ARBA_CPPX_RELEASE_BUILD
     FAIL();
 #else
-    #ifdef ARBA_CPPX_DEBUG_BUILD
-        SUCCEED();
-    #else
-        FAIL();
-    #endif
+#ifdef ARBA_CPPX_DEBUG_BUILD
+    SUCCEED();
+#else
+    FAIL();
+#endif
 #endif
 
 #endif

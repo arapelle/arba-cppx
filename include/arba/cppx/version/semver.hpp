@@ -1,8 +1,8 @@
 #pragma once
 
+#include "../preprocessor/exception.hpp"
 #include "_private/extract_semver.hpp"
 #include "concepts/semver.hpp"
-#include "../preprocessor/exception.hpp"
 #include "numver.hpp"
 
 inline namespace arba

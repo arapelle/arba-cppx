@@ -1,10 +1,10 @@
 #pragma once
 
+#include "../preprocessor/exception.hpp"
+
 #include <cstdint>
 #include <stdexcept>
 #include <string_view>
-
-#include "../preprocessor/exception.hpp"
 
 inline namespace arba
 {

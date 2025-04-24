@@ -33,15 +33,21 @@ namespace private_
 struct convertible_to_catch_type_t
 {
     template <class CatchType>
-    operator const CatchType&() const noexcept { return *reinterpret_cast<const CatchType*>(this); }
+    operator const CatchType&() const noexcept
+    {
+        return *reinterpret_cast<const CatchType*>(this);
+    }
     template <class CatchType>
-    operator CatchType&() const noexcept { return const_cast<CatchType&>(*reinterpret_cast<const CatchType*>(this)); }
+    operator CatchType&() const noexcept
+    {
+        return const_cast<CatchType&>(*reinterpret_cast<const CatchType*>(this));
+    }
 };
 constexpr convertible_to_catch_type_t convertible_to_catch_type;
-}
+} // namespace private_
 
 #define ARBA_CPPX_TRY
-#define ARBA_CPPX_CATCH(exce_decl)                                                                           \
+#define ARBA_CPPX_CATCH(exce_decl)                                                                                     \
     if constexpr ([[maybe_unused]] exce_decl = arba::cppx::private_::convertible_to_catch_type; false)
 #define ARBA_CPPX_CATCH_ANY() if constexpr (false)
 

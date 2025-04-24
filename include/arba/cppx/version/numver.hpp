@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../preprocessor/exception.hpp"
 #include "_private/extract_numver.hpp"
 #include "concepts/numver.hpp"
 #include "is_compatible_with.hpp"
-#include "../preprocessor/exception.hpp"
 #include <arba/cppx/compilation_error.hpp>
 #include <arba/cppx/string/string_conversion.hpp>
 
