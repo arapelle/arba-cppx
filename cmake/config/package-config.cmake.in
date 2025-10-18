@@ -1,6 +1,9 @@
 @PACKAGE_INIT@
 
 include(CMakeFindDependencyMacro)
+if("@ARBA_CPPX_EXECUTION_BACKEND@" STREQUAL "TBB")
+    find_dependency(TBB 2022 CONFIG REQUIRED)
+endif()
 
 include(${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@-targets.cmake)
 check_required_components(@PROJECT_NAME@-targets)

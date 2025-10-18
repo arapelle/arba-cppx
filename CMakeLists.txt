@@ -75,6 +75,15 @@ add_cpp_library(${PROJECT_NAME} HEADER_ONLY
 )
 add_library("${PROJECT_NAMESPACE}::${PROJECT_FEATURE_NAME}${LIBRARY_TYPE_POSTFIX}" ALIAS ${PROJECT_NAME})
 
+set(${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND "" CACHE STRING "Choose the backend for using all std::execution policies.")
+set_property(CACHE ${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND PROPERTY STRINGS ";TBB")
+
+if("${${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND}" STREQUAL "TBB")
+    find_package(TBB 2022 CONFIG REQUIRED COMPONENTS tbb)
+    target_link_libraries(${PROJECT_NAME} INTERFACE TBB::tbb)
+    target_compile_definitions(${PROJECT_NAME} INTERFACE ARBA_CPPX_EXECUTION_ALL_STD_POLICIES=true)
+endif()
+
 ## Add tests:
 add_test_subdirectory_if_build(test)
 

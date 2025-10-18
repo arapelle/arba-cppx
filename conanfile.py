@@ -24,8 +24,10 @@ class ArbaCppxRecipe(ConanFile):
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
     options = {
+        "execution_backend": ["", "TBB"]
     }
     default_options = {
+        "execution_backend": ""
     }
 
     # Build
@@ -43,22 +45,31 @@ class ArbaCppxRecipe(ConanFile):
         version_regex = r"""set_project_semantic_version\( *"?([0-9]+\.[0-9]+\.[0-9]+).*"""
         self.version = re.search(version_regex, cmakelist_content).group(1)
 
+    def configure(self):
+        if self.options.execution_backend == "TBB":
+            self.options["onetbb/*"].tbbmalloc = False
+
     def layout(self):
         cmake_layout(self)
 
     def validate(self):
         check_min_cppstd(self, 20)
 
+    def requirements(self):
+        if self.options.execution_backend == "TBB":
+            self.requires("onetbb/[^2022.0]", transitive_libs=True)
+
     def build_requirements(self):
         self.test_requires("gtest/[^1.14]")
 
     def generate(self):
+        upper_name = f"{self.project_namespace}_{self.project_base_name}".upper()
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
+        tc.variables[f"{upper_name}_EXECUTION_BACKEND"] = self.options.execution_backend
         build_test = not self.conf.get("tools.build:skip_test", default=True)
         if build_test:
-            upper_name = f"{self.project_namespace}_{self.project_base_name}".upper()
             tc.variables[f"BUILD_{upper_name}_TESTS"] = "TRUE"
         tc.generate()
 
