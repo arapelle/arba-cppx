@@ -40,6 +40,10 @@ configure_headers(configured_headers
 set(headers
     include/arba/cppx/compilation_error.hpp
     include/arba/cppx/policy/build_type.hpp
+    include/arba/cppx/policy/endianness_policy.hpp
+    include/arba/cppx/policy/exception_policy.hpp
+    include/arba/cppx/policy/execution_policy.hpp
+    include/arba/cppx/policy/thread_policy.hpp
     include/arba/cppx/preprocessor/auto_var_name.hpp
     include/arba/cppx/preprocessor/concat.hpp
     include/arba/cppx/preprocessor/exception.hpp
@@ -48,14 +52,16 @@ set(headers
     include/arba/cppx/preprocessor/stringize.hpp
     include/arba/cppx/string/fixed_string.hpp
     include/arba/cppx/string/string_conversion.hpp
+    include/arba/cppx/type_traits/demangled_type_name.hpp
+    include/arba/cppx/type_traits/type_name.hpp
     include/arba/cppx/version/concepts/numver.hpp
     include/arba/cppx/version/concepts/semver.hpp
     include/arba/cppx/version/is_compatible_with.hpp
-    include/arba/cppx/version/numver.hpp
-    include/arba/cppx/version/semver.hpp
     include/arba/cppx/version/numver_constant.hpp
+    include/arba/cppx/version/numver.hpp
     include/arba/cppx/version/_private/extract_numver.hpp
     include/arba/cppx/version/_private/extract_semver.hpp
+    include/arba/cppx/version/semver.hpp
 )
 
 ## Add C++ library:
