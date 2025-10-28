@@ -1,6 +1,7 @@
 #include <arba/cppx/policy/execution_policy.hpp>
 
 #include <gtest/gtest.h>
+
 #include <algorithm>
 #include <random>
 
@@ -24,9 +25,9 @@ TEST(execution_policy_tests, test_execution_policy)
 
 static_assert(cppx::execution::are_all_std_policies_available() ==
 #ifdef ARBA_CPPX_EXECUTION_ALL_STD_POLICIES
-    true
+              true
 #else
-    false
+              false
 #endif
 );
 
@@ -36,7 +37,7 @@ TEST(execution_policy_tests, execution_backend__use_or_not__ok)
     using duration_type = std::chrono::duration<float, ::std::chrono::milliseconds::period>;
     using clock_type = std::chrono::steady_clock;
 
-    std::array<unsigned, 1024*1024> uints;
+    std::array<unsigned, 1024 * 1024> uints;
 
     std::ranges::generate(uints, std::mt19937_64(47));
     clock_type::time_point start_time_point = clock_type::now();
