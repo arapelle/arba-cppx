@@ -50,7 +50,7 @@ set(headers
     include/arba/cppx/preprocessor/format_var.hpp
     include/arba/cppx/preprocessor/identity_type.hpp
     include/arba/cppx/preprocessor/stringize.hpp
-    include/arba/cppx/string/fixed_string.hpp
+    include/arba/cppx/string/string_constant.hpp
     include/arba/cppx/string/string_conversion.hpp
     include/arba/cppx/type_traits/demangled_type_name.hpp
     include/arba/cppx/type_traits/type_name.hpp
