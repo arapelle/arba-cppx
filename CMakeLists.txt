@@ -19,7 +19,7 @@ set_build_type_ifndef()
 
 set_project_name(NAMESPACE "arba" FEATURE_NAME "cppx")
 string(TIMESTAMP configure_datetime "%Y%m%d-%H%M%S")
-set_project_semantic_version("0.3.0" BUILD_METADATA "${configure_datetime}")
+set_project_semantic_version("0.4.0" BUILD_METADATA "${configure_datetime}")
 
 project(${PROJECT_NAME}
         VERSION ${PROJECT_VERSION}
@@ -40,22 +40,28 @@ configure_headers(configured_headers
 set(headers
     include/arba/cppx/compilation_error.hpp
     include/arba/cppx/policy/build_type.hpp
+    include/arba/cppx/policy/endianness_policy.hpp
+    include/arba/cppx/policy/exception_policy.hpp
+    include/arba/cppx/policy/execution_policy.hpp
+    include/arba/cppx/policy/thread_policy.hpp
     include/arba/cppx/preprocessor/auto_var_name.hpp
     include/arba/cppx/preprocessor/concat.hpp
     include/arba/cppx/preprocessor/exception.hpp
     include/arba/cppx/preprocessor/format_var.hpp
     include/arba/cppx/preprocessor/identity_type.hpp
     include/arba/cppx/preprocessor/stringize.hpp
-    include/arba/cppx/string/fixed_string.hpp
+    include/arba/cppx/string/string_constant.hpp
     include/arba/cppx/string/string_conversion.hpp
+    include/arba/cppx/type_traits/demangled_type_name.hpp
+    include/arba/cppx/type_traits/type_name.hpp
     include/arba/cppx/version/concepts/numver.hpp
     include/arba/cppx/version/concepts/semver.hpp
     include/arba/cppx/version/is_compatible_with.hpp
-    include/arba/cppx/version/numver.hpp
-    include/arba/cppx/version/semver.hpp
     include/arba/cppx/version/numver_constant.hpp
+    include/arba/cppx/version/numver.hpp
     include/arba/cppx/version/_private/extract_numver.hpp
     include/arba/cppx/version/_private/extract_semver.hpp
+    include/arba/cppx/version/semver.hpp
 )
 
 ## Add C++ library:
@@ -68,6 +74,15 @@ add_cpp_library(${PROJECT_NAME} HEADER_ONLY
   DEFAULT_ERROR_OPTIONS
 )
 add_library("${PROJECT_NAMESPACE}::${PROJECT_FEATURE_NAME}${LIBRARY_TYPE_POSTFIX}" ALIAS ${PROJECT_NAME})
+
+set(${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND "" CACHE STRING "Choose the backend for using all std::execution policies.")
+set_property(CACHE ${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND PROPERTY STRINGS ";TBB")
+
+if("${${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND}" STREQUAL "TBB")
+    find_package(TBB 2022 CONFIG REQUIRED COMPONENTS tbb)
+    target_link_libraries(${PROJECT_NAME} INTERFACE TBB::tbb)
+    target_compile_definitions(${PROJECT_NAME} INTERFACE ARBA_CPPX_EXECUTION_ALL_STD_POLICIES=true)
+endif()
 
 ## Add tests:
 add_test_subdirectory_if_build(test)

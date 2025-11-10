@@ -1,23 +1,23 @@
-#include <arba/cppx/string/fixed_string.hpp>
+#include <arba/cppx/string/string_constant.hpp>
 
 #include <gtest/gtest.h>
 
 #include <cstdlib>
 
-TEST(basic_fixed_string_tests, basic_fixed_string__empty_string__ok)
+TEST(basic_string_constant_tests, basic_string_constant__empty_string__ok)
 {
-    cppx::basic_fixed_string fstr("");
+    cppx::basic_string_constant fstr("");
     ASSERT_EQ(fstr.size(), 0);
     std::string_view sv(fstr);
     ASSERT_EQ(sv, "");
     ASSERT_EQ(fstr.c_str[0], '\0');
-    cppx::basic_fixed_string fstr2("");
+    cppx::basic_string_constant fstr2("");
     ASSERT_EQ(fstr, fstr2);
 }
 
-TEST(basic_fixed_string_tests, basic_fixed_string__not_empty_string__ok)
+TEST(basic_string_constant_tests, basic_string_constant__not_empty_string__ok)
 {
-    cppx::basic_fixed_string fstr("abcd");
+    cppx::basic_string_constant fstr("abcd");
     ASSERT_EQ(fstr.size(), 4);
     std::string_view sv(fstr);
     ASSERT_EQ(sv, "abcd");
@@ -26,18 +26,18 @@ TEST(basic_fixed_string_tests, basic_fixed_string__not_empty_string__ok)
     ASSERT_EQ(fstr.c_str[2], 'c');
     ASSERT_EQ(fstr.c_str[3], 'd');
     ASSERT_EQ(fstr.c_str[4], '\0');
-    cppx::basic_fixed_string fstr2("abcd");
+    cppx::basic_string_constant fstr2("abcd");
     ASSERT_EQ(fstr, fstr2);
 }
 
-template <cppx::basic_fixed_string arg>
+template <cppx::basic_string_constant arg>
 class global_title
 {
 public:
     static constexpr typename decltype(arg)::string_view value = arg;
 };
 
-TEST(basic_fixed_string_tests, basic_fixed_string__as_template_parameter__ok)
+TEST(basic_string_constant_tests, basic_string_constant__as_template_parameter__ok)
 {
     ASSERT_EQ(global_title<"libarba">::value, "libarba");
     ASSERT_EQ(global_title<U"libarba">::value, U"libarba");
