@@ -24,10 +24,12 @@ class ArbaCppxRecipe(ConanFile):
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
     options = {
-        "execution_backend": ["", "TBB"]
+        "execution_backend": ["", "TBB"],
+        "use_system_execution_backend": [True, False]
     }
     default_options = {
-        "execution_backend": ""
+        "execution_backend": "",
+        "use_system_execution_backend": False
     }
 
     # Build
@@ -46,8 +48,9 @@ class ArbaCppxRecipe(ConanFile):
         self.version = re.search(version_regex, cmakelist_content).group(1)
 
     def configure(self):
-        if self.options.execution_backend == "TBB":
-            self.options["onetbb/*"].tbbmalloc = False
+        if not self.options.use_system_execution_backend:
+            if self.options.execution_backend == "TBB" and self.settings.build_type == "Debug":
+                self.options["onetbb/*"].tbbmalloc = False
 
     def layout(self):
         cmake_layout(self)
@@ -56,8 +59,9 @@ class ArbaCppxRecipe(ConanFile):
         check_min_cppstd(self, 20)
 
     def requirements(self):
-        if self.options.execution_backend == "TBB":
-            self.requires("onetbb/[^2022.0]", transitive_libs=True)
+        if not self.options.use_system_execution_backend:
+            if self.options.execution_backend == "TBB":
+                self.requires("onetbb/[^2022.0]", transitive_libs=True)
 
     def build_requirements(self):
         self.test_requires("gtest/[^1.14]")
@@ -91,3 +95,5 @@ class ArbaCppxRecipe(ConanFile):
         self.cpp_info.bindirs = []
         self.cpp_info.libdirs = []
         self.cpp_info.set_property("cmake_target_name", self.name.replace('-', '::', 1))
+        if self.options.execution_backend != "":
+            self.cpp_info.defines = ["ARBA_CPPX_EXECUTION_ALL_STD_POLICIES=true"]
