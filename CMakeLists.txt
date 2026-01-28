@@ -22,7 +22,7 @@ project("arba-cppx"
         LANGUAGES CXX)
 message(STATUS "PROJECT : ${PROJECT_NAME} ${PACKAGE_SEMANTIC_VERSION} ${CMAKE_BUILD_TYPE}")
 
-find_package(cmaketk 1.0.0 CONFIG REQUIRED COMPONENTS cpp_lib_project cpp_lib_test cpp_lib_example)
+find_package(cmaketk 1.0.0 CONFIG REQUIRED COMPONENTS cpp_lib_project)
 
 cmtk_set_package_name(CONTEXT_NAME "arba" SUBJECT_NAME "cppx")
 string(TIMESTAMP configure_datetime "%Y%m%d-%H%M%S")

@@ -67,6 +67,7 @@ class ArbaCppxRecipe(ConanFile):
         self.tool_requires("cmaketk/[^1.0]")
         if not self.conf.get("tools.build:skip_test", default=True):
             self.test_requires("gtest/[^1.14]")
+            self.test_requires("cmakecc/[^1.0]")
 
     def generate(self):
         upper_name = f"{self.project_context_name}_{self.project_subject_name}".upper()
