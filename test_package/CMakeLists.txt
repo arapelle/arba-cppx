@@ -2,19 +2,15 @@ cmake_minimum_required(VERSION 3.15)
 
 project(PackageTest CXX)
 
-set(test_program "test_package")
-add_executable(${test_program}
-    test_package.cpp
-)
+set(package_name "arba-cppx")
 
-set(lib_namespace "arba")
-set(lib_feature_name "cppx")
-find_package(${lib_namespace}-${lib_feature_name} CONFIG REQUIRED)
+find_package(${package_name} CONFIG REQUIRED)
 
-target_link_libraries(${test_program}
+set(executable_name "test_package")
+add_executable(${executable_name} ${executable_name}.cpp)
+target_link_libraries(${executable_name}
     PRIVATE
-        ${lib_namespace}::${lib_feature_name}
+        ${package_name}::${package_name}
 )
-
-target_compile_features(${test_program} PRIVATE cxx_std_20)
-target_compile_definitions(${test_program} PRIVATE -DARBA_CPPX_VERBOSE_VERSION)
+target_compile_features(${executable_name} PRIVATE cxx_std_20)
+target_compile_definitions(${executable_name} PRIVATE -DARBA_CPPX_VERBOSE_VERSION)

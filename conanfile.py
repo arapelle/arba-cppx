@@ -8,9 +8,9 @@ from conan.tools.files import load, copy, rmdir
 required_conan_version = ">=2.2.0"
 
 class ArbaCppxRecipe(ConanFile):
-    project_namespace = "arba"
-    project_base_name = "cppx"
-    name = f"{project_namespace}-{project_base_name}"
+    project_context_name = "arba"
+    project_subject_name = "cppx"
+    name = f"{project_context_name}-{project_subject_name}"
     package_type = "header-library"
 
     # Optional metadata
@@ -44,7 +44,7 @@ class ArbaCppxRecipe(ConanFile):
 
     def set_version(self):
         cmakelist_content = load(self, os.path.join(self.recipe_folder, "CMakeLists.txt"))
-        version_regex = r"""set_project_semantic_version\( *"?([0-9]+\.[0-9]+\.[0-9]+).*"""
+        version_regex = r""" +VERSION "?([0-9]+\.[0-9]+\.[0-9]+).*"""
         self.version = re.search(version_regex, cmakelist_content).group(1)
 
     def configure(self):
@@ -64,24 +64,24 @@ class ArbaCppxRecipe(ConanFile):
                 self.requires("onetbb/[^2022.0]", transitive_libs=True)
 
     def build_requirements(self):
-        self.test_requires("gtest/[^1.14]")
+        self.tool_requires("cmaketk/[^1.0]")
+        if not self.conf.get("tools.build:skip_test", default=True):
+            self.test_requires("gtest/[^1.14]")
 
     def generate(self):
-        upper_name = f"{self.project_namespace}_{self.project_base_name}".upper()
+        upper_name = f"{self.project_context_name}_{self.project_subject_name}".upper()
         deps = CMakeDeps(self)
         deps.generate()
         tc = CMakeToolchain(self)
         tc.variables[f"{upper_name}_EXECUTION_BACKEND"] = self.options.execution_backend
-        build_test = not self.conf.get("tools.build:skip_test", default=True)
-        if build_test:
+        if not self.conf.get("tools.build:skip_test", default=True):
             tc.variables[f"BUILD_{upper_name}_TESTS"] = "TRUE"
         tc.generate()
 
     def build(self):
         cmake = CMake(self)
         cmake.configure()
-        build_test = not self.conf.get("tools.build:skip_test", default=True)
-        if build_test:
+        if not self.conf.get("tools.build:skip_test", default=True):
             cmake.build()
             cmake.ctest(cli_args=["--progress", "--output-on-failure"])
 
@@ -94,6 +94,5 @@ class ArbaCppxRecipe(ConanFile):
     def package_info(self):
         self.cpp_info.bindirs = []
         self.cpp_info.libdirs = []
-        self.cpp_info.set_property("cmake_target_name", self.name.replace('-', '::', 1))
         if self.options.execution_backend != "":
             self.cpp_info.defines = ["ARBA_CPPX_EXECUTION_ALL_STD_POLICIES=true"]

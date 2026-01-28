@@ -1,5 +1,5 @@
 
-add_cpp_library_basic_tests(${PROJECT_NAME} GTest::gtest_main
+cmtk_add_cpp_library_basic_gtests(${PROJECT_NAME} GTest::gtest_main
     SOURCES
         stringize_tests.cpp
         concat_tests.cpp
@@ -9,7 +9,7 @@ add_cpp_library_basic_tests(${PROJECT_NAME} GTest::gtest_main
         exception_tests.cpp
 )
 
-add_cpp_library_test(exception_no_exceptions_tests ${PROJECT_NAME} GTest::gtest_main
+cmtk_add_cpp_library_gtest(exception_no_exceptions_tests ${PROJECT_NAME} GTest::gtest_main
     SOURCES
         exception_no_exceptions_tests.cpp
 )

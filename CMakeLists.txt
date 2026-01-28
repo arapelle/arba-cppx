@@ -1,39 +1,39 @@
-cmake_minimum_required(VERSION 3.26)
-
-# EXTERNAL DEPENDENCIES
-
-add_subdirectory(external)
+cmake_minimum_required(VERSION 3.30)
 
 # CMAKE INCLUDES
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/external/cmake/)
 include(CMakePrintHelpers)
-include(cmtk/CppLibraryProject)
 
 # CONFIGURATION
 
-disable_in_source_build()
-set_build_type_ifndef()
+set(default_build_type "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+    set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release" "Debug" "MinSizeRel" "RelWithDebInfo")
+endif()
 
 # C++ PROJECT
 
-set_project_name(NAMESPACE "arba" FEATURE_NAME "cppx")
-string(TIMESTAMP configure_datetime "%Y%m%d-%H%M%S")
-set_project_semantic_version("0.5.0" BUILD_METADATA "${configure_datetime}")
-
-project(${PROJECT_NAME}
-        VERSION ${PROJECT_VERSION}
+project("arba-cppx"
+        VERSION 0.5.0
         DESCRIPTION "A C++ library providing essential features."
         HOMEPAGE_URL "https://github.com/arapelle/arba-cppx"
         LANGUAGES CXX)
-message(STATUS "PROJECT : ${PROJECT_NAME} ${PROJECT_SEMANTIC_VERSION} ${CMAKE_BUILD_TYPE}")
+message(STATUS "PROJECT : ${PROJECT_NAME} ${PACKAGE_SEMANTIC_VERSION} ${CMAKE_BUILD_TYPE}")
+
+find_package(cmaketk 1.0.0 CONFIG REQUIRED COMPONENTS cpp_lib_project cpp_lib_test cpp_lib_example)
+
+cmtk_set_package_name(CONTEXT_NAME "arba" SUBJECT_NAME "cppx")
+string(TIMESTAMP configure_datetime "%Y%m%d-%H%M%S")
+cmtk_set_package_semantic_version(${PROJECT_VERSION} PRE_RELEASE "dev" BUILD_METADATA "${configure_datetime}")
 
 # C++ LIBRARY
 
 ## Generated/Configured headers:
-configure_headers(configured_headers
+cmtk_configure_headers(configured_headers
     FILES
-        include/${PROJECT_NAMESPACE}/${PROJECT_FEATURE_NAME}/version.hpp.in
+        include/${PACKAGE_CONTEXT_NAME}/${PACKAGE_SUBJECT_NAME}/version.hpp.in
 )
 
 ## Headers:
@@ -65,15 +65,15 @@ set(headers
 )
 
 ## Add C++ library:
-cxx_standard_option(${PROJECT_UPPER_VAR_NAME}_CXX_STANDARD MIN 20 MAX 26)
+cmtk_cxx_standard_option(${PROJECT_UPPER_VAR_NAME}_CXX_STANDARD MIN 20 MAX 26)
 
-add_cpp_library(${PROJECT_NAME} HEADER_ONLY
+cmtk_add_cpp_library(${PROJECT_NAME} HEADER_ONLY
   HEADERS ${headers} ${configured_headers}
   CXX_STANDARD ${${PROJECT_UPPER_VAR_NAME}_CXX_STANDARD}
   DEFAULT_WARNING_OPTIONS
   DEFAULT_ERROR_OPTIONS
 )
-add_library("${PROJECT_NAMESPACE}::${PROJECT_FEATURE_NAME}${LIBRARY_TYPE_POSTFIX}" ALIAS ${PROJECT_NAME})
+add_library("${PROJECT_CONTEXT_NAME}::${PROJECT_SUBJECT_NAME}" ALIAS ${PROJECT_NAME})
 
 set(${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND "" CACHE STRING "Choose the backend for using all std::execution policies.")
 set_property(CACHE ${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND PROPERTY STRINGS ";TBB")
@@ -85,16 +85,16 @@ if("${${PROJECT_UPPER_VAR_NAME}_EXECUTION_BACKEND}" STREQUAL "TBB")
 endif()
 
 ## Add tests:
-add_test_subdirectory_if_build(test)
+cmtk_add_test_subdirectory_if_built(test NAME ${PACKAGE_NAME})
 
 ## Add examples:
-add_example_subdirectory_if_build(example)
+cmtk_add_example_subdirectory_if_built(example NAME ${PACKAGE_NAME})
 
 # C++ INSTALL
 
 ## Install C++ library:
-install_cpp_libraries(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-targets)
+cmtk_install_targets(TARGETS ${PACKAGE_NAME} EXPORT ${PACKAGE_NAME}-targets NAMESPACE "${PACKAGE_NAME}::")
 
 ## Install project package
-install_library_package(${PROJECT_NAME} INPUT_PACKAGE_CONFIG_FILE cmake/config/package-config.cmake.in)
-install_uninstall_script(${PROJECT_NAME})
+cmtk_install_package(${PACKAGE_NAME} INPUT_PACKAGE_CONFIG_FILE cmake/config/package-config.cmake.in)
+cmtk_install_uninstall_script(${PACKAGE_NAME} LIB)
